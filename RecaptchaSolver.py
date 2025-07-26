@@ -65,8 +65,8 @@ class RecaptchaSolver:
 
         # Download and process audio
         iframe.wait.ele_displayed("#audio-source", timeout=self.TIMEOUT_STANDARD)
-        # Take a picture of the page to ensure the audio source is loaded
-        self.driver.screenshot("recaptcha_screenshot.png")
+        # Take a screenshot of the page to ensure the audio source is loaded
+        self.driver.screencast(path="recaptcha_screenshot.png")
         src = iframe("#audio-source").attrs["src"]
 
         try:
