@@ -13,7 +13,7 @@ class RecaptchaSolver:
 
     # Constants
     TEMP_DIR = os.getenv("TEMP") if os.name == "nt" else "/tmp"
-    TIMEOUT_STANDARD = 7
+    TIMEOUT_STANDARD = 20
     TIMEOUT_SHORT = 1
     TIMEOUT_DETECTION = 0.05
 
