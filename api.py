@@ -31,7 +31,6 @@ class CaptchaAPI:
         "--disable-usage-stats",
         "--disable-crash-reporter",
         "--no-sandbox"
-        "--headless=1"
     ]
 
     @staticmethod
