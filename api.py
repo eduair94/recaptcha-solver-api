@@ -36,7 +36,7 @@ class CaptchaAPI:
 
     @staticmethod
     def create_driver(proxy: Optional[str] = None, user_agent: Optional[str] = None, 
-                     headless: bool = False) -> ChromiumPage:
+                  headless: bool = False) -> ChromiumPage:
         """Create a ChromiumPage driver with specified options.
         
         Args:
@@ -48,32 +48,39 @@ class CaptchaAPI:
             ChromiumPage: Configured browser driver
         """
         options = ChromiumOptions()
-        
-        # Add default arguments
+
+        # ✅ Ruta explícita al binario de Chromium (en Colab)
+        options.set_paths(browser_path='/usr/bin/chromium-browser')
+
+        # ✅ Argumentos obligatorios para Colab (sin GUI)
+        options.set_argument("--no-sandbox")
+        options.set_argument("--disable-dev-shm-usage")
+        options.set_argument("--disable-gpu")  # Útil en modo headless
+
+        # Añadir argumentos por defecto
         for argument in CaptchaAPI.DEFAULT_CHROME_ARGUMENTS:
             options.set_argument(argument)
-        
-        # Add headless mode if requested
+
+        # ✅ Activar modo headless si se indica
         if headless:
             options.set_argument("--headless=new")
-            options.set_argument("--disable-gpu")
             logger.info("Running browser in headless mode")
         else:
-            logger.info("Running browser in visible mode")
-        
-        # Configure proxy if provided
+            # ⚠️ Aunque no sea headless, necesitas que funcione en entorno sin GUI
+            options.set_argument("--headless=new")
+            logger.info("Colab detected, forcing headless mode even if 'headless=False'")
+
+        # Configurar proxy si es necesario
         if proxy:
             if '@' in proxy:
-                # Format: username:password@ip:port
                 auth_part, proxy_part = proxy.split('@')
                 username, password = auth_part.split(':')
                 options.set_argument(f"--proxy-server=http://{proxy_part}")
                 options.set_argument(f"--proxy-auth={username}:{password}")
             else:
-                # Format: ip:port
                 options.set_argument(f"--proxy-server={proxy}")
         
-        # Set custom user agent if provided
+        # User Agent personalizado
         if user_agent:
             options.set_argument(f"--user-agent={user_agent}")
         
