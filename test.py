@@ -2,6 +2,8 @@ from DrissionPage import ChromiumPage, ChromiumOptions
 from RecaptchaSolver import RecaptchaSolver
 import time
 
+from api import CaptchaAPI
+
 
 # Use minimal Chrome arguments for best compatibility
 CHROME_ARGUMENTS = [
@@ -16,7 +18,7 @@ for argument in CHROME_ARGUMENTS:
     options.set_argument(argument)
 
 try:
-    driver = ChromiumPage(addr_or_opts=options)
+    driver = CaptchaAPI.create_driver()
     recaptchaSolver = RecaptchaSolver(driver)
 
 

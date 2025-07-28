@@ -67,7 +67,7 @@ class CaptchaAPI:
                 # Format: username:password@ip:port
                 auth_part, proxy_part = proxy.split('@')
                 username, password = auth_part.split(':')
-                options.set_argument(f"--proxy-server={proxy_part}")
+                options.set_argument(f"--proxy-server=http://{proxy_part}")
                 options.set_argument(f"--proxy-auth={username}:{password}")
             else:
                 # Format: ip:port
